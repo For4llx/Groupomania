@@ -1,0 +1,22 @@
+{
+  "name": "romeonobime_7_30062021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/For4llx/RomeoNobime_7_30062021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/For4llx/RomeoNobime_7_30062021/issues"
+  },
+  "homepage": "https://github.com/For4llx/RomeoNobime_7_30062021#readme",
+  "dependencies": {
+    "sass": "^1.35.1"
+  }
+}
