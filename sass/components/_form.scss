@@ -1,0 +1,10 @@
+@mixin connexionForm
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: $radius;
+    box-shadow: $shadow;    
+}

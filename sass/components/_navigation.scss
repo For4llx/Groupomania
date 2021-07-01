@@ -1,0 +1,14 @@
+@mixin navigation
+{
+    background-color: white;
+    border-radius: $radius;
+    box-shadow: $shadow;
+    margin-top: 1rem;
+    padding: 1rem;
+
+    &__unorderedList
+    {
+        display: flex;
+        justify-content: space-around;
+    }
+}
