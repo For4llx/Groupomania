@@ -12,3 +12,9 @@
         @content;
     }    
 }
+@mixin container
+{
+    background-color: white;
+    border-radius: $radius;
+    box-shadow: $shadow;
+}

@@ -1,0 +1,11 @@
+.header
+{
+    @include header;
+    &--form
+    {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+    }
+}

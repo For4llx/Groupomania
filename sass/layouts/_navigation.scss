@@ -1,14 +1,26 @@
-@mixin navigation
+.navigation
 {
-    background-color: white;
-    border-radius: $radius;
-    box-shadow: $shadow;
     margin-top: 1rem;
     padding: 1rem;
+    width: 30%;
+    margin: 0 auto;
+    @include container;
 
     &__unorderedList
     {
         display: flex;
         justify-content: space-around;
+    }
+    @include tablet
+    {
+        width: 80%;
+    }
+    &__bullet
+    {
+        width: 40%;
+    }
+    &__button
+    {
+        @include button;
     }
 }

@@ -5,47 +5,12 @@
     height: 100%;
     z-index: -1;
 }
-.header
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
 .banner
 {
     margin-top: 1rem;
     width: 30%;
     margin: 0 auto;
     @include banner;
-    @include tablet
-    {
-        width: 80%;
-    }
-}
-.navigation
-{
-    width: 30%;
-    margin: 0 auto;
-    @include navigation;
-    @include tablet
-    {
-        width: 80%;
-    }
-    &__bullet
-    {
-        width: 40%;
-    }
-    &__button
-    {
-        @include button;
-    }
-}
-.connexion
-{
-    @include form;
     @include tablet
     {
         width: 80%;
