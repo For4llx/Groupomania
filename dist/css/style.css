@@ -30,20 +30,14 @@ button {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-right: 35%;
-  margin-left: 35%;
-  padding: 1rem;
-}
-
-.connexion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .banner {
-  width: 100%;
+  margin-top: 1rem;
+  width: 30%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,21 +46,32 @@ button {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   padding: 1rem;
 }
+@media screen and (max-width: 768px) {
+  .banner {
+    width: 80%;
+  }
+}
 
 .navigation {
-  width: 100%;
+  width: 30%;
+  margin: 0 auto;
   background-color: white;
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 1rem;
   padding: 1rem;
 }
-.navigation__bullet {
-  width: 40%;
-}
 .navigation__unorderedList {
   display: flex;
   justify-content: space-around;
+}
+@media screen and (max-width: 768px) {
+  .navigation {
+    width: 80%;
+  }
+}
+.navigation__bullet {
+  width: 40%;
 }
 .navigation__button {
   display: flex;
@@ -79,16 +84,21 @@ button {
 }
 
 .connexion {
-  margin-right: 35%;
-  margin-left: 35%;
-  padding: 1rem;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
   background-color: white;
   border-radius: 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 1rem;
+  width: 30%;
+  margin: 0 auto;
+}
+.connexion__containerDoubleInput {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
 }
 .connexion__form {
   display: flex;
@@ -100,8 +110,13 @@ button {
   padding: 1rem;
   border: 1px solid black;
   border-radius: 15px;
-  width: 80%;
   margin-top: 1rem;
+  width: 90%;
+}
+.connexion__input--small {
+  margin-left: -1rem;
+  margin-right: -1rem;
+  width: 40%;
 }
 .connexion__button {
   margin-top: 1rem;
@@ -112,6 +127,11 @@ button {
   border-radius: 15px;
   color: #FD2D01;
   padding: 1rem;
+}
+@media screen and (max-width: 768px) {
+  .connexion {
+    width: 80%;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

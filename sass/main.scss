@@ -1,7 +1,12 @@
+@import "./base/base.scss";
+
 @import "./utils/variables.scss";
-@import "./components/form.scss";
-@import "./components/navigation.scss";
+@import"./utils/mixins.scss";
+
 @import "./components/banner.scss";
 @import "./components/button.scss";
-@import "./base/base.scss";
+
+@import "./layouts/navigation.scss";
+@import "./layouts/form.scss";
+
 @import "./pages/index.scss";
