@@ -11,6 +11,12 @@
         margin: 0rem;
         height: 3rem;
         translate: 2rem;
+        @include mobile
+        {
+            translate: 0rem;
+            width: 100%;
+            margin-left: -1rem;
+        }
     }
 
     &__unorderedList

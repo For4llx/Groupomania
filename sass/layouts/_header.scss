@@ -11,5 +11,9 @@
     {
         flex-direction: row-reverse;
         justify-content: flex-end;
+        @include mobile
+        {
+            flex-direction: column;
+        }
     }
 }
