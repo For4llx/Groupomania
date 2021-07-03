@@ -1,0 +1,25 @@
+.banner
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    width: 30%;
+    margin: 1rem auto;
+    @include tablet
+    {
+        width: 80%;
+    }
+
+    &--forum
+    {
+        margin: 0rem;
+        height: 3rem;
+        width: 30%;
+        margin-right: 1rem;
+        margin-left: 3rem;
+    }
+
+
+    @include container
+}

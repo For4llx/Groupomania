@@ -3,11 +3,14 @@
 @import "./utils/variables.scss";
 @import"./utils/mixins.scss";
 
-@import "./components/banner.scss";
+@import "./components/profile.scss";
 @import "./components/button.scss";
+@import "./components/input.scss";
 
+@import "./layouts/banner.scss";
 @import "./layouts/header.scss";
 @import "./layouts/navigation.scss";
 @import "./layouts/formSection.scss";
 
 @import "./pages/index.scss";
+@import "./pages/forumTexts.scss";

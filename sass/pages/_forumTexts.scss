@@ -1,11 +1,48 @@
 .header
 {
-    @include header;
-    &--form
+    &__container
     {
         display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex-direction: row;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+        width: 70%;
+        margin-left: 1rem;
     }
+}
+.profile
+{
+
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 3rem;
+    padding: 1rem;
+    @include container;
+    
+    @include profile
+}
+.main
+{
+    display: flex;
+    height: 31rem;
+
+    &__containerMessage
+    {
+        height: 100%;
+        overflow-y: scroll;
+    }
+    &__message
+    {
+        padding: 1rem;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        @include container
+    }
+    &__profile
+    {
+        margin-top: 1rem;
+    }
+
+    @include profile
+
 }

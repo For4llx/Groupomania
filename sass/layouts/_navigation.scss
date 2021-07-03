@@ -1,19 +1,22 @@
 .navigation
 {
-    margin-top: 1rem;
     padding: 1rem;
     width: 30%;
     margin: 0 auto;
     @include container;
 
+    &--forum
+    {
+        width: 50%;
+        margin: 0rem;
+        height: 3rem;
+        translate: 2rem;
+    }
+
     &__unorderedList
     {
         display: flex;
         justify-content: space-around;
-    }
-    @include tablet
-    {
-        width: 80%;
     }
     &__bullet
     {

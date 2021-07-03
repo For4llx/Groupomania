@@ -9,6 +9,7 @@
 
     &--forum
     {
-        flex-direction: row;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
     }
 }

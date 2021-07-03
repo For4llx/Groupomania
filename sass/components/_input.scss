@@ -1,0 +1,15 @@
+@mixin input
+{
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: $radius;
+    margin-top: 1rem;
+    width: 90%;
+
+    &--small
+    {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        width: 40%;
+    }
+}
