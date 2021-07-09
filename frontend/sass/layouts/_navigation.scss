@@ -1,9 +1,14 @@
 .navigation
 {
     padding: 1rem;
-    width: 80%;
+    width: 30%;
     margin: 0 auto;
     @include container;
+
+    @include tablet
+    {
+        width: 80%;
+    }
 
     &--forum
     {
