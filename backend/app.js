@@ -3,6 +3,7 @@ const app = express();
 const { Sequelize } = require('sequelize');
 
 const userRoutes = require('./routes/user');
+const messageRoutes = require('./routes/message');
 
 // Connexion à mysql
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use("/api/user", userRoutes);
+app.use("/api/message", messageRoutes);
 
 module.exports = app;
 global.sequelize = sequelize;

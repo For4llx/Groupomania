@@ -8,7 +8,7 @@ const sequelize = new Sequelize('groupomania', 'root', 'password', {
   }
   });
 
-const User = sequelize.define('User', {
+const Message = sequelize.define('Message', {
   // Model attributes are defined here
   firstName: {
     type: DataTypes.STRING,
@@ -18,22 +18,16 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  email: {
+  message: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
   },
-  password: {
+  userId: {
     type: DataTypes.STRING,
     allowNull: false
-},
-  userId: {
-    type: DataTypes.UUID,
-    allowNull: false,
-    defaultValue: DataTypes.UUIDV4
   }
 }, {
   // Other model options go here
 });
 
-module.exports = User;
+module.exports = Message;
