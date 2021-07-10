@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes, UUID } = require('sequelize');
 
 const sequelize = new Sequelize('groupomania', 'root', 'password', {
     host: 'localhost',
@@ -7,13 +7,6 @@ const sequelize = new Sequelize('groupomania', 'root', 'password', {
       timestamps: false
   }
   });
-
-  try {
-  sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
 
 const User = sequelize.define('User', {
   // Model attributes are defined here
@@ -33,7 +26,12 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
-}
+},
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    defaultValue: DataTypes.UUIDV4
+  }
 }, {
   // Other model options go here
 });

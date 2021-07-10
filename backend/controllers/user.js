@@ -4,37 +4,48 @@ const mysql = require('mysql');
 const User = require("../models/user");
 const app = require("../app");
 
+exports.signin = (req, res, next) => {
+  (
+    async function()
+    { 
+      const user = await User.findOne({ where: { email: req.body.email } });
+
+      if (user === null)
+      {
+        res.status(401).json({ error: 'Utilisateur non trouvé !' });
+      }
+      else
+      {
+        const correctPassword = await bcrypt.compare(req.body.password, user.password);
+
+        if (!correctPassword)
+        {
+          res.status(401).json({ error: 'Mot de passe incorrect !' });
+        }
+      }
+      res.status(200).json({
+        userId: user.userId,
+        token: jwt.sign(
+          { userId: user.userId },
+          'RANDOM_TOKEN_SECRET',
+          { expiresIn: '24h' }
+        )
+      });
+    }
+  )();
+}
+
 exports.signup = (req, res, next) => {
-  (async () => {
+  (async function() 
+  {
+    const hash = await bcrypt.hash(req.body.password, 10)
     const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password
+      password: hash
     });
     console.log(user.toJSON());
     res.status(201).json({ message: 'Utilisateur créé !' });
   })();
 }
-/*
-exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10) 
-    .then
-    (
-      function (hash)
-      {
-        const user = User.create
-        (
-          {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hash
-          }
-        )
-        console.log(user);
-      }
-    )
-    .catch(error => res.status(500).json({ error }));
-  };
-  */
