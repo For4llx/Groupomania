@@ -34,7 +34,6 @@ exports.signin = (req, res, next) => {
     }
   )();
 }
-
 exports.signup = (req, res, next) => {
   (async function() 
   {
@@ -47,5 +46,12 @@ exports.signup = (req, res, next) => {
     });
     console.log(user.toJSON());
     res.status(201).json({ message: 'Utilisateur créé !' });
+  })();
+}
+exports.delete = (req, res, next) => {
+  (async function() 
+  {
+    await User.destroy({where: {userId: req.body.userId}});
+    res.status(200).json({ message: 'Utilisateur Supprimé !' });
   })();
 }

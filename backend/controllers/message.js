@@ -22,7 +22,13 @@ exports.createImageMessage = (req, res, next) => {
 
 }
 exports.getAllImageMessage = (req, res, next) => {
-
+    (
+        async function()
+        {
+            const images = await Message.findAll();
+            res.status(200).json(images)
+        }
+    )();
 }
 exports.getAllMessage = (req, res, next) => {
     (
