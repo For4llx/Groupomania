@@ -11,6 +11,7 @@
     {
         flex-direction: row-reverse;
         justify-content: flex-end;
+        align-items: normal;
         @include mobile
         {
             flex-direction: column;

@@ -61,6 +61,7 @@ button {
 .header--forum {
   flex-direction: row-reverse;
   justify-content: flex-end;
+  align-items: normal;
 }
 @media screen and (max-width: 480px) {
   .header--forum {
