@@ -61,8 +61,14 @@
     <section class="formSection">
       <h2>Se connecter</h2>
       <form class="formSection__form">
-        <input class="formSection__input" type="email" placeholder="Email" />
         <input
+          v-model="email"
+          class="formSection__input"
+          type="email"
+          placeholder="Email"
+        />
+        <input
+          v-model="password"
           class="formSection__input"
           type="password"
           placeholder="Mot de passe"
@@ -72,3 +78,59 @@
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Signup',
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    submitForm() {
+      // RFC 822 Standard for ARPA Internet Text Messages
+      // eslint-disable-next-line operator-linebreak
+      const regexEmail =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // Minimum eight characters, at least one letter and one number
+      const regexPassword = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/i;
+      if (
+        /* eslint-disable operator-linebreak */
+        regexEmail.test(this.email) &&
+        regexPassword.test(this.password)
+        /* eslint-enable operator-linebreak */
+      ) {
+        fetch('http://localhost:3000/api/user/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        })
+          .then((response) => response.ok)
+          .then(() => this.$router.push('/forum'))
+          .catch((error) => error);
+      } else {
+        const errors = [];
+
+        if (!regexEmail.test(this.email)) {
+          errors.push(
+            'Veuillez entrer un email sous la forme example@monEmail.ex',
+          );
+        }
+        if (!regexPassword.test(this.password)) {
+          errors.push(
+            'Veuillez entrer un mot de passe de minimum 8 caractères avec au moins une majuscule et un chiffre',
+          );
+        }
+        alert(errors.join('\n'));
+      }
+    },
+  },
+};
+</script>

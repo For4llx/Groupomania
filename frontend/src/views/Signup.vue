@@ -89,6 +89,7 @@
           placeholder="Mot de passe"
         />
         <input
+          v-model="passwordConfirmation"
           class="formSection__input"
           type="password"
           placeholder="Confirmation du mot de passe"
@@ -110,25 +111,70 @@ export default {
       lastName: '',
       email: '',
       password: '',
-      //  passwordConfirmation: '',
+      passwordConfirmation: '',
     };
   },
   methods: {
     submitForm() {
-      fetch('http://localhost:3000/api/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password,
-        }),
-      })
-        .then((response) => response.ok)
-        .catch((error) => error);
+      // International names for regex
+      // eslint-disable-next-line operator-linebreak
+      const regexName =
+        /^[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž,.'-]+$/i;
+      // RFC 822 Standard for ARPA Internet Text Messages
+      // eslint-disable-next-line operator-linebreak
+      const regexEmail =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // Minimum eight characters, at least one letter and one number
+      const regexPassword = /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/i;
+      if (
+        /* eslint-disable operator-linebreak */
+        regexName.test(this.lastName) &&
+        regexName.test(this.firstName) &&
+        regexEmail.test(this.email) &&
+        regexPassword.test(this.password) &&
+        this.password === this.passwordConfirmation
+        /* eslint-enable operator-linebreak */
+      ) {
+        fetch('http://localhost:3000/api/user/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            password: this.password,
+          }),
+        })
+          .then((response) => response.ok)
+          .then(() => this.$router.push('/forum'))
+          .catch((error) => error);
+      } else {
+        const errors = [];
+        if (!regexName.test(this.firstName)) {
+          errors.push('Veuillez entrer un prénom valide');
+        }
+        if (!regexName.test(this.lastName)) {
+          errors.push('Veuillez entrer un nom valide');
+        }
+        if (!regexEmail.test(this.email)) {
+          errors.push(
+            'Veuillez entrer un email sous la forme example@monEmail.ex',
+          );
+        }
+        if (!regexPassword.test(this.password)) {
+          errors.push(
+            'Veuillez entrer un mot de passe de minimum 8 caractères avec au moins une majuscule et un chiffre',
+          );
+        }
+        if (!this.password === this.passwordConfirmation) {
+          errors.push(
+            'Veuillez entrer un mot de passe identique dans le champ "Mot de passe" et "Confirmation du mot de passe"',
+          );
+        }
+        alert(errors.join('\n'));
+      }
     },
   },
 };
