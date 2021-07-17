@@ -66,7 +66,7 @@
           />
 
           <div class="profile__content">
-            <p class="profile__fullName">Nom complet</p>
+            <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
               <button class="profile__button">Changer d'image</button>
               <button class="profile__button">Déconnexion</button>
@@ -110,3 +110,40 @@
     </main>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Forum',
+  data() {
+    return {
+      fullName: '',
+      userId: JSON.parse(localStorage.User).userId,
+    };
+  },
+  methods: {
+    getUserName() {
+      fetch('http://localhost:3000/api/user/forum', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: this.userId,
+        }),
+      }) /* eslint-disable */
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((response) => {
+          this.fullName = `${response.lastName + ' ' + response.firstName}`;
+        })
+        .catch((error) => error);
+    },
+  },
+  mounted() {
+    this.getUserName();
+  },
+};
+</script>

@@ -146,8 +146,15 @@ export default {
             email: this.email,
             password: this.password,
           }),
-        })
-          .then((response) => response.ok)
+        }) /* eslint-disable */
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((response) => {
+            localStorage.setItem('User', JSON.stringify(response));
+          })
           .then(() => this.$router.push('/forum'))
           .catch((error) => error);
       } else {

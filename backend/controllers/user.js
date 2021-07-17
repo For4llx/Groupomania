@@ -52,3 +52,11 @@ exports.delete = (req, res, next) => {
     res.status(200).json({ message: "Utilisateur Supprimé !" });
   })();
 };
+exports.getUserName = (req, res, next) => {
+  (async function () {
+    const user = await User.findOne({ where: { userId: req.body.userId } });
+    res
+      .status(200)
+      .json({ lastName: user.lastName, firstName: user.firstName });
+  })();
+};

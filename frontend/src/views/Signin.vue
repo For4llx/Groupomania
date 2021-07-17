@@ -73,7 +73,13 @@
           type="password"
           placeholder="Mot de passe"
         />
-        <button class="formSection__button" type="submit">Connexion</button>
+        <button
+          @click.prevent="submitForm()"
+          class="formSection__button"
+          type="submit"
+        >
+          Connexion
+        </button>
       </form>
     </section>
   </div>
@@ -102,7 +108,7 @@ export default {
         regexPassword.test(this.password)
         /* eslint-enable operator-linebreak */
       ) {
-        fetch('http://localhost:3000/api/user/signup', {
+        fetch('http://localhost:3000/api/user/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -111,8 +117,15 @@ export default {
             email: this.email,
             password: this.password,
           }),
-        })
-          .then((response) => response.ok)
+        }) /* eslint-disable */
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((response) => {
+            localStorage.setItem('User', JSON.stringify(response));
+          })
           .then(() => this.$router.push('/forum'))
           .catch((error) => error);
       } else {
