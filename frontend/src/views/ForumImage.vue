@@ -90,21 +90,16 @@
               />
               <div class="main__content">
                 <p class="main__fullName">
-                  <!--  {{ data.lastName }} {{ data.firstName }} -->
+                  {{ data.lastName }} {{ data.firstName }}
                 </p>
               </div>
             </div>
             <p v-bind:key="data" class="main__message">
-              <!--{{ data.message }}-->
+              {{ data.image }}
             </p>
           </template>
         </div>
-        <input
-          @change="addImage"
-          class="main__input"
-          type="file"
-          value="Exprimez vous ici !"
-        />
+        <input @change="addImage" class="main__input" type="file" />
         <button class="main__button" @click="sendImage">Envoyer</button>
       </section>
       <section class="main__section main__section--side">
@@ -118,13 +113,13 @@
             />
             <div class="main__content">
               <p class="main__fullName">
-                <!-- {{ messageData[messageData.length - 1].lastName }}
-                {{ messageData[messageData.length - 1].firstName }} -->
+                {{ messageData[messageData.length - 1].lastName }}
+                {{ messageData[messageData.length - 1].firstName }}
               </p>
             </div>
           </div>
           <p class="main__message">
-            <!-- {{ messageData[messageData.length - 1].message }} -->
+            {{ messageData[messageData.length - 1].message }}
           </p>
         </div>
       </section>
@@ -141,7 +136,7 @@ export default {
       firstName: '',
       lastName: '',
       messageInput: '',
-      imageUpload: null,
+      imageBLOB: null,
       userId: JSON.parse(localStorage.User).userId,
       messageData: [],
       Images: [],
@@ -172,28 +167,13 @@ export default {
         })
         .catch((error) => error);
     },
-    sendMessage() {
-      fetch('http://localhost:3000/api/message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          image: this.messageInput,
-          userId: this.userId,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .catch((error) => error);
+    addImage(event) {
+      this.imageBLOB = event.target.files[0];
+      console.log(this.imageUrl);
     },
     sendImage() {
-      fetch('http://localhost:3000/api/message', {
+      const reader = new FileReader();
+      fetch('http://localhost:3000/api/message/image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -201,7 +181,7 @@ export default {
         body: JSON.stringify({
           firstName: this.firstName,
           lastName: this.lastName,
-          image: this.imageUpload,
+          image: this.imageBLOB,
           userId: this.userId,
         }),
       })
@@ -212,12 +192,8 @@ export default {
         })
         .catch((error) => error);
     },
-    addImage(event) {
-      this.imageUpload = event.target.files[0];
-      console.log(this.imageUpload);
-    },
-    getMessage() {
-      fetch('http://localhost:3000/api/message')
+    getImages() {
+      fetch('http://localhost:3000/api/message/image')
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -233,6 +209,7 @@ export default {
   },
   mounted() {
     this.getUserName();
+    this.getImages();
   },
 };
 </script>

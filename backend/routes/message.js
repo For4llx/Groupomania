@@ -8,6 +8,6 @@ const multer = require("../middleware/multer-config");
 router.get("/", messageCtrl.getAllMessage);
 router.post("/", messageCtrl.createMessage);
 router.get("/image", messageCtrl.getAllImageMessage);
-router.post("/image", auth, multer, messageCtrl.createImageMessage);
+router.post("/image", messageCtrl.createImageMessage);
 
 module.exports = router;

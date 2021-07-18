@@ -52,7 +52,7 @@
               </router-link>
             </li>
             <li class="navigation__bullet">
-              <router-link class="navigation__button" to="/forum/image">
+              <router-link class="navigation__button" to="/image">
                 Médias
               </router-link>
             </li>

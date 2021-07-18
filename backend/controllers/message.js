@@ -20,13 +20,12 @@ exports.createImageMessage = (req, res, next) => {
       image: req.body.image,
       userId: req.body.userId,
     });
-    console.log(messageObject.toJSON());
-    res.status(201).json({ message: "Message créé !" });
   })();
+  res.status(201).json({ message: "Image créé !" });
 };
 exports.getAllImageMessage = (req, res, next) => {
   (async function () {
-    const images = await Message.findAll();
+    const images = await Image.findAll();
     res.status(200).json(images);
   })();
 };
