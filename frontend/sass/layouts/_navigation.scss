@@ -1,40 +1,33 @@
-.navigation
-{
-    padding: 1rem;
-    width: 30%;
-    margin: 0 auto;
-    @include container;
+.navigation {
+  padding: 1rem;
+  width: 30%;
+  margin: 0 auto;
+  @include container;
 
-    @include tablet
-    {
-        width: 80%;
-    }
+  @include tablet {
+    width: 80%;
+  }
 
-    &--forum
-    {
-        width: 50%;
-        margin: 0rem;
-        height: 3rem;
-        translate: 2rem;
-        @include mobile
-        {
-            translate: 0rem;
-            width: 100%;
-            margin-left: -1rem;
-        }
+  &--forum {
+    width: 50%;
+    margin: 0;
+    height: 3rem;
+    translate: 2rem;
+    @include mobile {
+      translate: 0;
+      width: 100%;
+      margin-left: -1rem;
     }
+  }
 
-    &__unorderedList
-    {
-        display: flex;
-        justify-content: space-around;
-    }
-    &__bullet
-    {
-        width: 40%;
-    }
-    &__button
-    {
-        @include button;
-    }
+  &__unorderedList {
+    display: flex;
+    justify-content: space-around;
+  }
+  &__bullet {
+    width: 40%;
+  }
+  &__button {
+    @include button;
+  }
 }

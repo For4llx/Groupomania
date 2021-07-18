@@ -20,6 +20,11 @@ const routes = [
     name: 'Forum',
     component: () => import('../views/Forum.vue'),
   },
+  {
+    path: '/image',
+    name: 'ForumImage',
+    component: () => import('../views/ForumImage.vue'),
+  },
 ];
 
 const router = new VueRouter({

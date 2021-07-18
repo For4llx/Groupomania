@@ -1,4 +1,5 @@
 const Message = require("../models/message");
+const Image = require("../models/image");
 
 exports.createMessage = (req, res, next) => {
   (async function () {
@@ -8,11 +9,21 @@ exports.createMessage = (req, res, next) => {
       message: req.body.message,
       userId: req.body.userId,
     });
+    res.status(201).json({ message: "Message créé !" });
+  })();
+};
+exports.createImageMessage = (req, res, next) => {
+  (async function () {
+    const messageObject = await Image.create({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      image: req.body.image,
+      userId: req.body.userId,
+    });
     console.log(messageObject.toJSON());
     res.status(201).json({ message: "Message créé !" });
   })();
 };
-exports.createImageMessage = (req, res, next) => {};
 exports.getAllImageMessage = (req, res, next) => {
   (async function () {
     const images = await Message.findAll();

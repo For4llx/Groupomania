@@ -52,7 +52,7 @@
               </router-link>
             </li>
             <li class="navigation__bullet">
-              <router-link class="navigation__button" to="/forum/image">
+              <router-link class="navigation__button" to="/image">
                 Médias
               </router-link>
             </li>
@@ -79,7 +79,7 @@
 
     <main class="main">
       <section class="main__section">
-        <h2 class="main__title">Forum</h2>
+        <h2 class="main__title">Forum Médias</h2>
         <div class="main__containerMessage">
           <template v-for="data in messageData">
             <div v-bind:key="data" class="main__profile">
@@ -90,19 +90,22 @@
               />
               <div class="main__content">
                 <p class="main__fullName">
-                  {{ data.lastName }} {{ data.firstName }}
+                  <!--  {{ data.lastName }} {{ data.firstName }} -->
                 </p>
               </div>
             </div>
-            <p v-bind:key="data" class="main__message">{{ data.message }}</p>
+            <p v-bind:key="data" class="main__message">
+              <!--{{ data.message }}-->
+            </p>
           </template>
         </div>
         <input
-          v-on:keyup.enter="sendMessage"
-          v-model="messageInput"
+          @change="addImage"
           class="main__input"
-          placeholder="Exprimez vous ici !"
+          type="file"
+          value="Exprimez vous ici !"
         />
+        <button class="main__button" @click="sendImage">Envoyer</button>
       </section>
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
@@ -115,13 +118,13 @@
             />
             <div class="main__content">
               <p class="main__fullName">
-                {{ messageData[messageData.length - 1].lastName }}
-                {{ messageData[messageData.length - 1].firstName }}
+                <!-- {{ messageData[messageData.length - 1].lastName }}
+                {{ messageData[messageData.length - 1].firstName }} -->
               </p>
             </div>
           </div>
           <p class="main__message">
-            {{ messageData[messageData.length - 1].message }}
+            <!-- {{ messageData[messageData.length - 1].message }} -->
           </p>
         </div>
       </section>
@@ -227,18 +230,9 @@ export default {
         })
         .catch((error) => error);
     },
-    toForumText() {
-      this.forumText = true;
-      this.forumImage = false;
-    },
-    toForumImage() {
-      this.forumText = false;
-      this.forumImage = true;
-    },
   },
   mounted() {
     this.getUserName();
-    this.getMessage();
   },
 };
 </script>

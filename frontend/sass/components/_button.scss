@@ -1,10 +1,9 @@
-@mixin button
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $button-color;
-    border-radius: $radius;
-    color: $primary-color;
-    padding: 1rem;
+@mixin button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $button-color;
+  border-radius: $radius;
+  color: $primary-color;
+  padding: 1rem;
 }
