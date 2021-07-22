@@ -17,11 +17,11 @@ exports.createImageMessage = (req, res, next) => {
     const messageObject = await Image.create({
       lastName: req.body.lastName,
       firstName: req.body.firstName,
-      image: req.body.image,
+      image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
       userId: req.body.userId,
     });
+    res.status(201).json({ message: "Image créé !" });
   })();
-  res.status(201).json({ message: "Image créé !" });
 };
 exports.getAllImageMessage = (req, res, next) => {
   (async function () {
@@ -35,3 +35,13 @@ exports.getAllMessage = (req, res, next) => {
     res.status(200).json(messages);
   })();
 };
+
+/*(async function () {
+    console.log(req.file);
+    const messageObject = await Image.create({
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      image: req.file.image,
+      userId: req.body.userId,
+    });
+  })();*/

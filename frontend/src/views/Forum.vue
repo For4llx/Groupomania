@@ -82,7 +82,7 @@
         <h2 class="main__title">Forum</h2>
         <div class="main__containerMessage">
           <template v-for="data in messageData">
-            <div v-bind:key="data" class="main__profile">
+            <div v-bind:key="data.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
                 src="../assets/profilePicture.png"
@@ -94,7 +94,9 @@
                 </p>
               </div>
             </div>
-            <p v-bind:key="data" class="main__message">{{ data.message }}</p>
+            <p v-bind:key="data.id + 'message'" class="main__message">
+              {{ data.message }}
+            </p>
           </template>
         </div>
         <input
@@ -106,23 +108,25 @@
       </section>
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
-        <div class="main__containerMessage">
-          <div class="main__profile">
-            <img
-              class="main__picture"
-              src="../assets/profilePicture.png"
-              alt="Photo de profil"
-            />
-            <div class="main__content">
-              <p class="main__fullName">
-                {{ messageData[messageData.length - 1].lastName }}
-                {{ messageData[messageData.length - 1].firstName }}
-              </p>
+        <div v-if="messageData.length" class="main__containerMessage">
+          <template v-for="lastMessage in lastsMessages">
+            <div :key="lastMessage.id + 'profile'" class="main__profile">
+              <img
+                class="main__picture"
+                src="../assets/profilePicture.png"
+                alt="Photo de profil"
+              />
+              <div class="main__content">
+                <p class="main__fullName">
+                  {{ lastMessage.lastName }}
+                  {{ lastMessage.firstName }}
+                </p>
+              </div>
             </div>
-          </div>
-          <p class="main__message">
-            {{ messageData[messageData.length - 1].message }}
-          </p>
+            <p :key="lastMessage.id + 'message'" class="main__message">
+              {{ lastMessage.message }}
+            </p>
+          </template>
         </div>
       </section>
     </main>
@@ -156,14 +160,15 @@ export default {
         body: JSON.stringify({
           userId: this.userId,
         }),
-      }) /* eslint-disable */
+      })
         .then((response) => {
           if (response.ok) {
             return response.json();
           }
+          throw new Error('Erreur');
         })
         .then((response) => {
-          this.fullName = `${response.lastName + ' ' + response.firstName}`;
+          this.fullName = `${response.lastName} ${response.firstName}`;
           this.lastName = response.lastName;
           this.firstName = response.firstName;
         })
@@ -178,40 +183,12 @@ export default {
         body: JSON.stringify({
           firstName: this.firstName,
           lastName: this.lastName,
-          image: this.messageInput,
+          message: this.messageInput,
           userId: this.userId,
         }),
       })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
+        .then(this.getMessage)
         .catch((error) => error);
-    },
-    sendImage() {
-      fetch('http://localhost:3000/api/message', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          image: this.imageUpload,
-          userId: this.userId,
-        }),
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .catch((error) => error);
-    },
-    addImage(event) {
-      this.imageUpload = event.target.files[0];
-      console.log(this.imageUpload);
     },
     getMessage() {
       fetch('http://localhost:3000/api/message')
@@ -219,21 +196,17 @@ export default {
           if (response.ok) {
             return response.json();
           }
+          throw new Error('Erreur');
         })
         .then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            this.messageData[i] = data[i];
-          }
+          this.messageData = data;
         })
         .catch((error) => error);
     },
-    toForumText() {
-      this.forumText = true;
-      this.forumImage = false;
-    },
-    toForumImage() {
-      this.forumText = false;
-      this.forumImage = true;
+  },
+  computed: {
+    lastsMessages() {
+      return this.messageData.slice(-3);
     },
   },
   mounted() {

@@ -105,7 +105,7 @@
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
         <div class="main__containerMessage">
-          <div class="main__profile">
+          <div v-if="messageData.length > 1" class="main__profile">
             <img
               class="main__picture"
               src="../assets/profilePicture.png"
@@ -113,13 +113,13 @@
             />
             <div class="main__content">
               <p class="main__fullName">
-                {{ messageData[messageData.length - 1].lastName }}
-                {{ messageData[messageData.length - 1].firstName }}
+                <!--{{ messageData[messageData.length].lastName }}
+                {{ messageData[messageData.length].firstName }} -->
               </p>
             </div>
           </div>
-          <p class="main__message">
-            {{ messageData[messageData.length - 1].message }}
+          <p v-if="messageData.length > 1" class="main__message">
+            <!-- {{ messageData[messageData.length].message }} -->
           </p>
         </div>
       </section>
@@ -128,6 +128,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   name: 'Forum',
   data() {
@@ -136,12 +137,9 @@ export default {
       firstName: '',
       lastName: '',
       messageInput: '',
-      imageBLOB: null,
+      imageInput: null,
       userId: JSON.parse(localStorage.User).userId,
       messageData: [],
-      Images: [],
-      forumText: true,
-      forumImage: false,
     };
   },
   methods: {
@@ -154,11 +152,9 @@ export default {
         body: JSON.stringify({
           userId: this.userId,
         }),
-      }) /* eslint-disable */
+      })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
         })
         .then((response) => {
           this.fullName = `${response.lastName + ' ' + response.firstName}`;
@@ -168,27 +164,20 @@ export default {
         .catch((error) => error);
     },
     addImage(event) {
-      this.imageBLOB = event.target.files[0];
-      console.log(this.imageUrl);
+      this.imageInput = event.target.files[0];
     },
     sendImage() {
-      const reader = new FileReader();
+      const formData = new FormData();
+      formData.append('firstName', this.firstName);
+      formData.append('lastName', this.lastName);
+      formData.append('image', this.imageInput);
+      formData.append('userId', this.userId);
       fetch('http://localhost:3000/api/message/image', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          image: this.imageBLOB,
-          userId: this.userId,
-        }),
+        body: formData,
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
         })
         .catch((error) => error);
     },
@@ -200,7 +189,7 @@ export default {
           }
         })
         .then((data) => {
-          for (let i = 0; i < data.length; i++) {
+          for (let i = 0; i < data.length; i += 1) {
             this.messageData[i] = data[i];
           }
         })
