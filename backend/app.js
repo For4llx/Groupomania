@@ -42,8 +42,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/api/user", userRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/user", userRoutes);
 
 module.exports = app;
 global.sequelize = sequelize;

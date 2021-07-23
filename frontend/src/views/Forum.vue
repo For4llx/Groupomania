@@ -69,8 +69,12 @@
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
               <button class="profile__button">Changer d'image</button>
-              <button class="profile__button">Déconnexion</button>
-              <button class="profile__button">Supprimer le profil</button>
+              <button @click="deconnexion" class="profile__button">
+                Déconnexion
+              </button>
+              <button @click="deleteUSer" class="profile__button">
+                Supprimer le profil
+              </button>
             </div>
           </div>
         </div>
@@ -144,6 +148,7 @@ export default {
       messageInput: '',
       imageUpload: null,
       userId: JSON.parse(localStorage.User).userId,
+      token: JSON.parse(localStorage.User).token,
       messageData: [],
       Images: [],
     };
@@ -154,6 +159,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
         },
         body: JSON.stringify({
           userId: this.userId,
@@ -177,6 +183,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
         },
         body: JSON.stringify({
           firstName: this.firstName,
@@ -189,7 +196,12 @@ export default {
         .catch((error) => error);
     },
     getMessage() {
-      fetch('http://localhost:3000/api/message')
+      fetch('http://localhost:3000/api/message', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
         .then((response) => {
           if (response.ok) {
             return response.json();
@@ -198,6 +210,32 @@ export default {
         })
         .then((data) => {
           this.messageData = data;
+        })
+        .catch((error) => error);
+    },
+    deconnexion() {
+      this.$router.push('/');
+    },
+    deleteUSer() {
+      fetch('http://localhost:3000/api/user/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: JSON.stringify({
+          userId: this.userId,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Erreur');
+        })
+        .then(() => {
+          alert('Votre profil à été supprimé');
+          this.$router.push('/');
         })
         .catch((error) => error);
     },

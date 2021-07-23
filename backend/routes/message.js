@@ -5,9 +5,9 @@ const messageCtrl = require("../controllers/message");
 const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 
-router.get("/", messageCtrl.getAllMessage);
-router.post("/", messageCtrl.createMessage);
-router.get("/image", messageCtrl.getAllImageMessage);
-router.post("/image", multer, messageCtrl.createImageMessage);
+router.get("/", auth, messageCtrl.getAllMessage);
+router.post("/", auth, messageCtrl.createMessage);
+router.get("/image", auth, messageCtrl.getAllImageMessage);
+router.post("/image", auth, multer, messageCtrl.createImageMessage);
 
 module.exports = router;
