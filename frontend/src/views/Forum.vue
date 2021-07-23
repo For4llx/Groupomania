@@ -146,8 +146,6 @@ export default {
       userId: JSON.parse(localStorage.User).userId,
       messageData: [],
       Images: [],
-      forumText: true,
-      forumImage: false,
     };
   },
   methods: {
@@ -206,7 +204,7 @@ export default {
   },
   computed: {
     lastsMessages() {
-      return this.messageData.slice(-3);
+      return this.messageData.slice(-3).reverse();
     },
   },
   mounted() {

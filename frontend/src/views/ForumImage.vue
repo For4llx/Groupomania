@@ -81,8 +81,8 @@
       <section class="main__section">
         <h2 class="main__title">Forum Médias</h2>
         <div class="main__containerMessage">
-          <template v-for="data in messageData">
-            <div v-bind:key="data" class="main__profile">
+          <template v-for="media in messageData">
+            <div v-bind:key="media.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
                 src="../assets/profilePicture.png"
@@ -90,13 +90,15 @@
               />
               <div class="main__content">
                 <p class="main__fullName">
-                  {{ data.lastName }} {{ data.firstName }}
+                  {{ media.lastName }} {{ media.firstName }}
                 </p>
               </div>
             </div>
-            <p v-bind:key="data" class="main__message">
-              {{ data.image }}
-            </p>
+            <img
+              :src="media.image"
+              class="main__message"
+              v-bind:key="media.id + 'media'"
+            />
           </template>
         </div>
         <input @change="addImage" class="main__input" type="file" />
@@ -105,22 +107,25 @@
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
         <div class="main__containerMessage">
-          <div v-if="messageData.length > 1" class="main__profile">
-            <img
-              class="main__picture"
-              src="../assets/profilePicture.png"
-              alt="Photo de profil"
-            />
-            <div class="main__content">
-              <p class="main__fullName">
-                <!--{{ messageData[messageData.length].lastName }}
-                {{ messageData[messageData.length].firstName }} -->
-              </p>
+          <template v-for="lastMessage in lastsMessages">
+            <div :key="lastMessage.id + 'profile'" class="main__profile">
+              <img
+                class="main__picture"
+                src="../assets/profilePicture.png"
+                alt="Photo de profil"
+              />
+              <div class="main__content">
+                <p class="main__fullName">
+                  {{ lastMessage.lastName }} {{ lastMessage.firstName }}
+                </p>
+              </div>
             </div>
-          </div>
-          <p v-if="messageData.length > 1" class="main__message">
-            <!-- {{ messageData[messageData.length].message }} -->
-          </p>
+            <img
+              :src="lastMessage.image"
+              class="main__message"
+              v-bind:key="lastMessage.id + 'media'"
+            />
+          </template>
         </div>
       </section>
     </main>
@@ -190,10 +195,15 @@ export default {
         })
         .then((data) => {
           for (let i = 0; i < data.length; i += 1) {
-            this.messageData[i] = data[i];
+            this.messageData = data;
           }
         })
         .catch((error) => error);
+    },
+  },
+  computed: {
+    lastsMessages() {
+      return this.messageData.slice(-3).reverse();
     },
   },
   mounted() {
