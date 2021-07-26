@@ -35,13 +35,3 @@ exports.getAllMessage = (req, res, next) => {
     res.status(200).json(messages);
   })();
 };
-
-/*(async function () {
-    console.log(req.file);
-    const messageObject = await Image.create({
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
-      image: req.file.image,
-      userId: req.body.userId,
-    });
-  })();*/

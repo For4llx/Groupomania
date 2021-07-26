@@ -72,7 +72,9 @@
               <button @click="deconnexion" class="profile__button">
                 Déconnexion
               </button>
-              <button class="profile__button">Supprimer le profil</button>
+              <button @click="deleteUSer" class="profile__button">
+                Supprimer le profil
+              </button>
             </div>
           </div>
         </div>
@@ -191,6 +193,7 @@ export default {
         .then((response) => {
           if (response.ok) return response.json();
         })
+        .then(this.getImages)
         .catch((error) => error);
     },
     getImages() {
