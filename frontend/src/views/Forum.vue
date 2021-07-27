@@ -61,14 +61,18 @@
         <div class="profile">
           <img
             class="profile__picture"
-            src="../assets/profilePicture.png"
+            :src="profilePicture"
             alt="Photo de profil"
           />
 
           <div class="profile__content">
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
-              <button class="profile__button">Changer d'image</button>
+              <input
+                @change="changeProfilePicture"
+                type="file"
+                class="profile__button"
+              />
               <button @click="deconnexion" class="profile__button">
                 Déconnexion
               </button>
@@ -138,6 +142,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   name: 'Forum',
   data() {
@@ -147,6 +152,7 @@ export default {
       lastName: '',
       messageInput: '',
       imageUpload: null,
+      profilePicture: null,
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
@@ -194,8 +200,11 @@ export default {
         .then(this.getMessage)
         .catch((error) => error);
     },
+    addPofilePicture(event) {
+      this.profilePicture = event.target.files[0];
+    },
     getMessage() {
-      fetch('http://localhost:3000/api/message', {
+      fetch('http://localhost:3000/api/user/picture', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -235,6 +244,42 @@ export default {
         .then(() => {
           alert('Votre profil à été supprimé');
           this.$router.push('/');
+        })
+        .catch((error) => error);
+    },
+    changeProfilePicture(event) {
+      const profilePicture = event.target.files[0];
+      const formData = new FormData();
+      formData.append('userId', this.userId);
+      formData.append('image', profilePicture);
+      fetch('http://localhost:3000/api/user/picture', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+        })
+        .then(this.getProfilePicture)
+        .catch((error) => error);
+    },
+    getProfilePicture() {
+      console.log('test');
+      fetch('http://localhost:3000/api/user/' + this.userId, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          this.profilePicture = data.profilePicture;
         })
         .catch((error) => error);
     },

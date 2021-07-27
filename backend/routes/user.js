@@ -10,5 +10,6 @@ router.post("/", userController.signin);
 router.post("/signup", userController.signup);
 router.delete("/delete", auth, userController.delete);
 router.put("/picture", multer, userController.changeProfilePicture);
+router.get("/:id", userController.getUser);
 
 module.exports = router;
