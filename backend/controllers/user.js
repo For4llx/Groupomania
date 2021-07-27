@@ -60,3 +60,20 @@ exports.getUserName = (req, res, next) => {
       .json({ lastName: user.lastName, firstName: user.firstName });
   })();
 };
+exports.changeProfilePicture = (req, res, next) => {
+  (async function () {
+    await User.update(
+      {
+        profilePicture: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      },
+      {
+        where: {
+          userId: req.body.userId,
+        },
+      }
+    );
+    res.status(200).json({ message: "L'image de profile à été modifié" });
+  })();
+};

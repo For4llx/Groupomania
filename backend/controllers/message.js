@@ -1,5 +1,6 @@
 const Message = require("../models/message");
 const Image = require("../models/image");
+const User = require("../models/user");
 
 exports.createMessage = (req, res, next) => {
   (async function () {

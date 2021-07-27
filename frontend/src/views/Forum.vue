@@ -150,7 +150,6 @@ export default {
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
-      Images: [],
     };
   },
   methods: {
