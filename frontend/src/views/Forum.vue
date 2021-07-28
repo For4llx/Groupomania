@@ -68,7 +68,11 @@
           <div class="profile__content">
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
+              <label class="button__avatar" for="changeProfilePicture"
+                >Changer d'avatar</label
+              >
               <input
+                id="changeProfilePicture"
                 @change="changeProfilePicture"
                 type="file"
                 class="profile__button"
@@ -93,7 +97,7 @@
             <div v-bind:key="data.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
-                src="../assets/profilePicture.png"
+                :src="data.profilePicture"
                 alt="Photo de profil"
               />
               <div class="main__content">
@@ -121,7 +125,7 @@
             <div :key="lastMessage.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
-                src="../assets/profilePicture.png"
+                :src="lastMessage.profilePicture"
                 alt="Photo de profil"
               />
               <div class="main__content">
@@ -152,7 +156,7 @@ export default {
       lastName: '',
       messageInput: '',
       imageUpload: null,
-      profilePicture: null,
+      profilePicture: '',
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
@@ -195,6 +199,7 @@ export default {
           lastName: this.lastName,
           message: this.messageInput,
           userId: this.userId,
+          profilePicture: this.profilePicture,
         }),
       })
         .then(this.getMessage)
@@ -204,7 +209,7 @@ export default {
       this.profilePicture = event.target.files[0];
     },
     getMessage() {
-      fetch('http://localhost:3000/api/user/picture', {
+      fetch('http://localhost:3000/api/message', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -264,6 +269,17 @@ export default {
         })
         .then(this.getProfilePicture)
         .catch((error) => error);
+      fetch('http://localhost:3000/api/message/picture', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+        })
+        .catch((error) => error);
     },
     getProfilePicture() {
       console.log('test');
@@ -292,6 +308,12 @@ export default {
   mounted() {
     this.getUserName();
     this.getMessage();
+    this.getProfilePicture();
   },
 };
 </script>
+<style>
+#changeProfilePicture {
+  display: none;
+}
+</style>

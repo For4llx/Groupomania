@@ -9,5 +9,6 @@ router.get("/", auth, messageCtrl.getAllMessage);
 router.post("/", auth, messageCtrl.createMessage);
 router.get("/image", auth, messageCtrl.getAllImageMessage);
 router.post("/image", auth, multer, messageCtrl.createImageMessage);
+router.put("/picture", multer, messageCtrl.changeMessagePicture);
 
 module.exports = router;

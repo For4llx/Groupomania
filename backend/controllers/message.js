@@ -8,6 +8,7 @@ exports.createMessage = async (req, res, next) => {
     firstName: req.body.firstName,
     message: req.body.message,
     userId: req.body.userId,
+    profilePicture: req.body.profilePicture,
   });
   res.status(201).json({ message: "Message créé !" });
 };
@@ -27,4 +28,19 @@ exports.getAllImageMessage = async (req, res, next) => {
 exports.getAllMessage = async (req, res, next) => {
   const messages = await Message.findAll();
   res.status(200).json(messages);
+};
+exports.changeMessagePicture = async (req, res, next) => {
+  await Message.update(
+    {
+      profilePicture: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
+    },
+    {
+      where: {
+        userId: req.body.userId,
+      },
+    }
+  );
+  res.status(200).json({ message: "L'image de profile à été modifié" });
 };
