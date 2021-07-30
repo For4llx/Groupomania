@@ -28,6 +28,9 @@ const Image = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    profilePicture: {
+      type: DataTypes.STRING,
+    },
   },
   {
     // Other model options go here

@@ -42,5 +42,17 @@ exports.changeMessagePicture = async (req, res, next) => {
       },
     }
   );
+  await Image.update(
+    {
+      profilePicture: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
+    },
+    {
+      where: {
+        userId: req.body.userId,
+      },
+    }
+  );
   res.status(200).json({ message: "L'image de profile à été modifié" });
 };

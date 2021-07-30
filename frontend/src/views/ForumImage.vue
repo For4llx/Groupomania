@@ -61,14 +61,22 @@
         <div class="profile">
           <img
             class="profile__picture"
-            src="../assets/profilePicture.png"
+            :src="profilePicture"
             alt="Photo de profil"
           />
 
           <div class="profile__content">
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
-              <button class="profile__button">Changer d'image</button>
+              <label class="button__avatar" for="changeProfilePicture"
+                >Changer d'avatar</label
+              >
+              <input
+                id="changeProfilePicture"
+                @change="changeProfilePicture"
+                type="file"
+                class="profile__button"
+              />
               <button @click="deconnexion" class="profile__button">
                 Déconnexion
               </button>
@@ -89,7 +97,7 @@
             <div v-bind:key="media.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
-                src="../assets/profilePicture.png"
+                :src="media.profilePicture"
                 alt="Photo de profil"
               />
               <div class="main__content">
@@ -115,7 +123,7 @@
             <div :key="lastMessage.id + 'profile'" class="main__profile">
               <img
                 class="main__picture"
-                src="../assets/profilePicture.png"
+                :src="lastMessage.profilePicture"
                 alt="Photo de profil"
               />
               <div class="main__content">
@@ -145,8 +153,8 @@ export default {
       fullName: '',
       firstName: '',
       lastName: '',
-      messageInput: '',
       imageInput: null,
+      profilePicture: '',
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
@@ -209,9 +217,7 @@ export default {
           }
         })
         .then((data) => {
-          for (let i = 0; i < data.length; i += 1) {
-            this.messageData = data;
-          }
+          this.messageData = data;
         })
         .catch((error) => error);
     },
@@ -241,6 +247,54 @@ export default {
         })
         .catch((error) => error);
     },
+    getProfilePicture() {
+      console.log('test');
+      fetch('http://localhost:3000/api/user/' + this.userId, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          this.profilePicture = data.profilePicture;
+        })
+        .catch((error) => error);
+    },
+    changeProfilePicture(event) {
+      const profilePicture = event.target.files[0];
+      const formData = new FormData();
+      formData.append('userId', this.userId);
+      formData.append('image', profilePicture);
+      fetch('http://localhost:3000/api/user/picture', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+        })
+        .then(this.getProfilePicture)
+        .catch((error) => error);
+      fetch('http://localhost:3000/api/message/picture', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+        })
+        .then(this.getProfilePicture)
+        .catch((error) => error);
+    },
   },
   computed: {
     lastsMessages() {
@@ -250,6 +304,7 @@ export default {
   mounted() {
     this.getUserName();
     this.getImages();
+    this.getProfilePicture();
   },
 };
 </script>

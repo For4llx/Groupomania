@@ -155,7 +155,6 @@ export default {
       firstName: '',
       lastName: '',
       messageInput: '',
-      imageUpload: null,
       profilePicture: '',
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
