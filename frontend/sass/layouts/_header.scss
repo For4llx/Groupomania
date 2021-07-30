@@ -1,20 +1,18 @@
-.header
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    flex-direction: column;
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  flex-direction: column;
 
-    &--forum
-    {
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-        align-items: normal;
-        @include mobile
-        {
-            flex-direction: column;
-        }
+  &--forum {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: normal;
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
     }
+  }
 }

@@ -1,3 +1,4 @@
+/* stylelint-disable */
 * {
   margin: 0;
   padding: 0;
@@ -35,7 +36,7 @@ button {
   }
 }
 .banner--forum {
-  margin: 0rem;
+  margin: 0;
   height: 3rem;
   width: 30%;
   margin-right: 1rem;
@@ -66,6 +67,7 @@ button {
 @media screen and (max-width: 480px) {
   .header--forum {
     flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -103,7 +105,6 @@ button {
   width: 40%;
 }
 .navigation__button {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -323,6 +324,7 @@ button {
   padding: 1rem;
   margin-top: 1rem;
   margin-right: 1rem;
+  width: 80%;
   background-color: white;
   border-radius: 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);

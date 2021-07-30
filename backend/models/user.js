@@ -14,19 +14,23 @@ const User = sequelize.define(
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
+      is: /^[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž,.'-]+$/i,
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
+      is: /^[a-zàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšž,.'-]+$/i,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      is: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      is: /^(?=.*[a-z])(?=.*\d)[a-z\d]{8,}$/i,
     },
     userId: {
       type: DataTypes.UUID,
