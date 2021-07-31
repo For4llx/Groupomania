@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="background" src="../assets/bakcgroundForum.jpg" />
+    <img class="background" src="../assets/bakcgroundForum.jpg" alt="photo"/>
     <header class="header header--forum">
       <h1 class="banner banner--forum">
         <!-- eslint-disable max-len -->
