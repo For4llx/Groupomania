@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="background" src="../assets/bakcgroundForum.jpg" alt="photo"/>
+    <img class="background" src="../assets/bakcgroundForum.jpg" alt="photo" />
     <header class="header header--forum">
       <h1 class="banner banner--forum">
         <!-- eslint-disable max-len -->
@@ -92,23 +92,25 @@
     <main class="main">
       <section class="main__section">
         <h2 class="main__title">Forum</h2>
-        <div class="main__containerMessage">
+        <div class="main__containerAllMessages">
           <template v-for="data in messageData">
-            <div v-bind:key="data.id + 'profile'" class="main__profile">
-              <img
-                class="main__picture"
-                :src="data.profilePicture"
-                alt="Photo de profil"
-              />
-              <div class="main__content">
-                <p class="main__fullName">
-                  {{ data.lastName }} {{ data.firstName }}
-                </p>
+            <div :class="data.classMessage" v-bind:key="data.id">
+              <div v-bind:key="data.id + 'profile'" :class="data.classProfile">
+                <img
+                  :class="data.classPicture"
+                  :src="data.profilePicture"
+                  alt="Photo de profil"
+                />
+                <div class="main__content">
+                  <p class="main__fullName">
+                    {{ data.lastName }} {{ data.firstName }}
+                  </p>
+                </div>
               </div>
+              <p v-bind:key="data.id + 'message'" :class="data.classText">
+                {{ data.message }}
+              </p>
             </div>
-            <p v-bind:key="data.id + 'message'" class="main__message">
-              {{ data.message }}
-            </p>
           </template>
         </div>
         <input
@@ -174,9 +176,7 @@ export default {
         }),
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
           throw new Error('Erreur');
         })
         .then((response) => {
@@ -205,7 +205,7 @@ export default {
         .catch((error) => error);
     },
     addPofilePicture(event) {
-      this.profilePicture = event.target.files[0];
+      [this.profilePicture] = event.target.files;
     },
     getMessage() {
       fetch('http://localhost:3000/api/message', {
@@ -215,12 +215,26 @@ export default {
         },
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
           throw new Error('Erreur');
         })
-        .then((data) => {
+        .then((response) => {
+          const data = JSON.parse(JSON.stringify(response));
+
+          for (let i = 0; i < data.length; i += 1) {
+            if (this.userId === data[i].userId) {
+              data[i].classProfile = 'main__profile main__profile--user';
+              data[i].classMessage =
+                'main__containerOneMessage main__containerOneMessage--user';
+              data[i].classPicture = 'main__picture main__picture--user';
+              data[i].classText = 'main__message main__message--user';
+            } else {
+              data[i].classProfile = 'main__profile';
+              data[i].classMessage = 'main__containerOneMessage';
+              data[i].classPicture = 'main__picture';
+              data[i].classText = 'main__message';
+            }
+          }
           this.messageData = data;
         })
         .catch((error) => error);
@@ -240,9 +254,7 @@ export default {
         }),
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
           throw new Error('Erreur');
         })
         .then(() => {
@@ -265,6 +277,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then(this.getProfilePicture)
         .catch((error) => error);
@@ -277,26 +290,40 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .catch((error) => error);
     },
     getProfilePicture() {
-      console.log('test');
-      fetch('http://localhost:3000/api/user/' + this.userId, {
+      fetch(`http://localhost:3000/api/user/${this.userId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then((data) => {
           this.profilePicture = data.profilePicture;
         })
         .catch((error) => error);
+    },
+    addMessageClass() {
+      for (let i = 0; i < this.messageData.length; i += 1) {
+        if (this.userId === this.messageData[i].userId) {
+          this.messageData[i].push({ classProfile: 'main__profile--user' });
+          this.messageData[i].push({
+            classMessage: 'main__containerOneMessage--user',
+          });
+        } else {
+          this.messageData[i].push({ classProfile: 'main__profile' });
+          this.messageData[i].push({
+            classMessage: 'main__containerOneMessage',
+          });
+        }
+      }
     },
   },
   computed: {

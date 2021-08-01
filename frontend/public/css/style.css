@@ -209,6 +209,14 @@ button {
   border-radius: 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
+.profile__profile--user {
+  margin-top: 1rem;
+  flex-direction: row-reverse;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: cadetblue;
+}
 .profile__content {
   width: 100%;
 }
@@ -230,6 +238,9 @@ button {
   width: 60px;
   height: 60px;
   margin-right: 1rem;
+}
+.profile__picture--user {
+  margin-right: 0;
 }
 .profile__title {
   text-align: center;
@@ -247,28 +258,6 @@ button {
   margin-left: -1rem;
   margin-right: -1rem;
   width: 40%;
-}
-.profile__content {
-  width: 100%;
-}
-.profile__containerButton {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.profile__fullName {
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-.profile__button {
-  font-size: 0.6rem;
-}
-.profile__picture {
-  border-radius: 15px;
-  width: 60px;
-  height: 60px;
-  margin-right: 1rem;
 }
 @media screen and (max-width: 480px) {
   .profile {
@@ -316,18 +305,28 @@ button {
     margin-bottom: 1rem;
   }
 }
-.main__containerMessage {
+.main__containerAllMessages {
   height: 100%;
   overflow-y: scroll;
+}
+.main__containerOneMessage {
+  display: flex;
+  flex-direction: column;
+}
+.main__containerOneMessage--user {
+  align-items: flex-end;
 }
 .main__message {
   padding: 1rem;
   margin-top: 1rem;
-  margin-right: 1rem;
-  width: 80%;
+  width: max-content;
+  max-width: 60%;
   background-color: white;
   border-radius: 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.main__message--user {
+  background-color: cadetblue;
 }
 .main__profile {
   margin-top: 1rem;
@@ -341,6 +340,14 @@ button {
   background-color: white;
   border-radius: 15px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.main__profile--user {
+  margin-top: 1rem;
+  flex-direction: row-reverse;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  background-color: cadetblue;
 }
 .main__content {
   width: 100%;
@@ -363,6 +370,9 @@ button {
   width: 60px;
   height: 60px;
   margin-right: 1rem;
+}
+.main__picture--user {
+  margin-right: 0;
 }
 .main__title {
   text-align: center;
@@ -380,28 +390,6 @@ button {
   margin-left: -1rem;
   margin-right: -1rem;
   width: 40%;
-}
-.main__content {
-  width: 100%;
-}
-.main__containerButton {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.main__fullName {
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-.main__button {
-  font-size: 0.6rem;
-}
-.main__picture {
-  border-radius: 15px;
-  width: 60px;
-  height: 60px;
-  margin-right: 1rem;
 }
 
 /*# sourceMappingURL=style.css.map */

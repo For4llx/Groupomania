@@ -145,7 +145,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 export default {
   name: 'Forum',
   data() {
@@ -174,16 +173,17 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then((response) => {
-          this.fullName = `${response.lastName + ' ' + response.firstName}`;
+          this.fullName = `${response.lastName} ${response.firstName}`;
           this.lastName = response.lastName;
           this.firstName = response.firstName;
         })
         .catch((error) => error);
     },
     addImage(event) {
-      this.imageInput = event.target.files[0];
+      [this.imageInput] = event.target.files;
     },
     sendImage() {
       const formData = new FormData();
@@ -200,6 +200,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then(this.getImages)
         .catch((error) => error);
@@ -212,9 +213,8 @@ export default {
         },
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then((data) => {
           this.messageData = data;
@@ -236,9 +236,7 @@ export default {
         }),
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
           throw new Error('Erreur');
         })
         .then(() => {
@@ -249,16 +247,15 @@ export default {
     },
     getProfilePicture() {
       console.log('test');
-      fetch('http://localhost:3000/api/user/' + this.userId, {
+      fetch(`http://localhost:3000/api/user/${this.userId}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
       })
         .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
+          if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then((data) => {
           this.profilePicture = data.profilePicture;
@@ -279,6 +276,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then(this.getProfilePicture)
         .catch((error) => error);
@@ -291,6 +289,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) return response.json();
+          throw new Error('Erreur');
         })
         .then(this.getProfilePicture)
         .catch((error) => error);

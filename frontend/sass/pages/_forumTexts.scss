@@ -63,16 +63,26 @@
     }
   }
 
-  &__containerMessage {
+  &__containerAllMessages {
     height: 100%;
     overflow-y: scroll;
+  }
+  &__containerOneMessage {
+    display: flex;
+    flex-direction: column;
+    &--user {
+      align-items: flex-end;
+    }
   }
   &__message {
     padding: 1rem;
     margin-top: 1rem;
-    margin-right: 1rem;
-    width: 80%;
+    width: max-content;
+    max-width: 60%;
     @include container;
+    &--user {
+      background-color: cadetblue;
+    }
   }
   &__profile {
     margin-top: 1rem;

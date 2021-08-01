@@ -1,5 +1,5 @@
 {
-  "plugins": ["html-validate-vue"],
+  "plugins": ["html-validate-vue", "vue-cli-service html-validate"],
   "extends": ["html-validate:recommended", "html-validate-vue:recommended"],
   "elements": ["html5"],
   "transform": {
