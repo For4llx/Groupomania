@@ -92,33 +92,48 @@
     <main class="main">
       <section class="main__section">
         <h2 class="main__title">Forum Médias</h2>
-        <div class="main__containerMessage">
+        <div class="main__containerAllMessages">
           <template v-for="media in messageData">
-            <div v-bind:key="media.id + 'profile'" class="main__profile">
-              <img
-                class="main__picture"
-                :src="media.profilePicture"
-                alt="Photo de profil"
-              />
-              <div class="main__content">
-                <p class="main__fullName">
-                  {{ media.lastName }} {{ media.firstName }}
-                </p>
+            <div :class="media.classMessage" v-bind:key="media.id">
+              <div
+                v-bind:key="media.id + 'profile'"
+                :class="media.classProfile"
+              >
+                <img
+                  :class="media.classPicture"
+                  :src="media.profilePicture"
+                  alt="Photo de profil"
+                />
+                <div class="main__content">
+                  <p class="main__fullName">
+                    {{ media.lastName }} {{ media.firstName }}
+                  </p>
+                </div>
               </div>
+              <img
+                :src="media.image"
+                :class="media.classText"
+                v-bind:key="media.id + 'media'"
+              />
             </div>
-            <img
-              :src="media.image"
-              class="main__message"
-              v-bind:key="media.id + 'media'"
-            />
           </template>
         </div>
-        <input @change="addImage" class="main__input" type="file" />
-        <button class="main__button" @click="sendImage">Envoyer</button>
+        <div class="main__containerInputImage">
+          <label class="main__input" for="addImage">{{ messageImage }}</label>
+          <input
+            id="addImage"
+            @change="addImage"
+            class="main__input main__input--image"
+            type="file"
+          />
+          <button class="main__button main__button--send" @click="sendImage">
+            Envoyer
+          </button>
+        </div>
       </section>
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
-        <div class="main__containerMessage">
+        <div class="main__containerAllMessages">
           <template v-for="lastMessage in lastsMessages">
             <div :key="lastMessage.id + 'profile'" class="main__profile">
               <img
@@ -145,6 +160,7 @@
 </template>
 
 <script>
+/* eslint-disable operator-linebreak */
 export default {
   name: 'Forum',
   data() {
@@ -157,6 +173,7 @@ export default {
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
+      messageImage: 'Envoyer un message ici',
     };
   },
   methods: {
@@ -184,6 +201,7 @@ export default {
     },
     addImage(event) {
       [this.imageInput] = event.target.files;
+      this.messageImage = "Message prêt à l'envoi";
     },
     sendImage() {
       const formData = new FormData();
@@ -191,6 +209,7 @@ export default {
       formData.append('lastName', this.lastName);
       formData.append('image', this.imageInput);
       formData.append('userId', this.userId);
+      formData.append('profilePicture', this.profilePicture);
       fetch('http://localhost:3000/api/message/image', {
         method: 'POST',
         headers: {
@@ -204,6 +223,7 @@ export default {
         })
         .then(this.getImages)
         .catch((error) => error);
+      this.messageImage = 'Envoyer un message ici';
     },
     getImages() {
       fetch('http://localhost:3000/api/message/image', {
@@ -216,12 +236,29 @@ export default {
           if (response.ok) return response.json();
           throw new Error('Erreur');
         })
-        .then((data) => {
+        .then((response) => {
+          const data = JSON.parse(JSON.stringify(response));
+
+          for (let i = 0; i < data.length; i += 1) {
+            if (this.userId === data[i].userId) {
+              data[i].classProfile = 'main__profile main__profile--user';
+              data[i].classMessage =
+                'main__containerOneMessage main__containerOneMessage--user';
+              data[i].classPicture = 'main__picture main__picture--user';
+              data[i].classText = 'main__message main__message--user';
+            } else {
+              data[i].classProfile = 'main__profile';
+              data[i].classMessage = 'main__containerOneMessage';
+              data[i].classPicture = 'main__picture';
+              data[i].classText = 'main__message';
+            }
+          }
           this.messageData = data;
         })
         .catch((error) => error);
     },
     deconnexion() {
+      delete window.localStorage.User;
       this.$router.push('/');
     },
     deleteUSer() {

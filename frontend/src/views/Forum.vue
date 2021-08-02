@@ -122,7 +122,7 @@
       </section>
       <section class="main__section main__section--side">
         <h2 class="main__title">Récents</h2>
-        <div v-if="messageData.length" class="main__containerMessage">
+        <div v-if="messageData.length" class="main__containerAllMessages">
           <template v-for="lastMessage in lastsMessages">
             <div :key="lastMessage.id + 'profile'" class="main__profile">
               <img
@@ -148,7 +148,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+/* eslint-disable operator-linebreak */
 export default {
   name: 'Forum',
   data() {
@@ -202,6 +202,9 @@ export default {
         }),
       })
         .then(this.getMessage)
+        .then(() => {
+          this.messageInput = '';
+        })
         .catch((error) => error);
     },
     addPofilePicture(event) {
@@ -240,6 +243,7 @@ export default {
         .catch((error) => error);
     },
     deconnexion() {
+      delete window.localStorage.User;
       this.$router.push('/');
     },
     deleteUSer() {

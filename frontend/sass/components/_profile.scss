@@ -29,6 +29,10 @@
   }
   &__button {
     font-size: 0.6rem;
+
+    &--send {
+      font-size: 1rem;
+    }
   }
   &__picture {
     border-radius: $radius;
@@ -47,5 +51,8 @@
   &__input {
     box-shadow: $shadow;
     @include input;
+    &--image {
+      display: none;
+    }
   }
 }

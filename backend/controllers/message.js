@@ -18,6 +18,7 @@ exports.createImageMessage = async (req, res, next) => {
     firstName: req.body.firstName,
     image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     userId: req.body.userId,
+    profilePicture: req.body.profilePicture,
   });
   res.status(201).json({ message: "Image créé !" });
 };
