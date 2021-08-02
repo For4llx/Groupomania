@@ -19,6 +19,10 @@ button {
   background: transparent;
 }
 
+body {
+  background-color: gray;
+}
+
 .banner {
   display: flex;
   justify-content: center;

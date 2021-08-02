@@ -68,7 +68,7 @@
           <div class="profile__content">
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
-              <label class="button__avatar" for="changeProfilePicture"
+              <label class="profile__button" for="changeProfilePicture"
                 >Changer d'avatar</label
               >
               <input
@@ -109,7 +109,9 @@
                     {{ media.lastName }} {{ media.firstName }}
                   </p>
                 </div>
-                <button @click="deleteMessage" :id="media.id">Supprimer</button>
+                <button v-if="admin" @click="deleteMessage" :id="media.id">
+                  Supprimer
+                </button>
               </div>
               <img
                 :src="media.image"
@@ -175,6 +177,7 @@ export default {
       token: JSON.parse(localStorage.User).token,
       messageData: [],
       messageImage: 'Envoyer un message ici',
+      admin: '',
     };
   },
   methods: {
@@ -197,6 +200,7 @@ export default {
           this.fullName = `${response.lastName} ${response.firstName}`;
           this.lastName = response.lastName;
           this.firstName = response.firstName;
+          this.admin = response.admin;
         })
         .catch((error) => error);
     },

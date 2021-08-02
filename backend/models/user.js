@@ -43,7 +43,7 @@ const User = sequelize.define(
       defaultValue:
         "./images/blank-profile-picture-973460_640.png1626680325113.png",
     },
-    Admin: {
+    admin: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },

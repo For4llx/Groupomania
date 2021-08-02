@@ -48,7 +48,11 @@ exports.delete = async (req, res, next) => {
 };
 exports.getUserName = async (req, res, next) => {
   const user = await User.findOne({ where: { userId: req.body.userId } });
-  res.status(200).json({ lastName: user.lastName, firstName: user.firstName });
+  res.status(200).json({
+    lastName: user.lastName,
+    firstName: user.firstName,
+    admin: user.admin,
+  });
 };
 exports.changeProfilePicture = async (req, res, next) => {
   await User.update(

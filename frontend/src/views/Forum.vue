@@ -68,7 +68,7 @@
           <div class="profile__content">
             <p class="profile__fullName">{{ fullName }}</p>
             <div class="profile__containerButton">
-              <label class="button__avatar" for="changeProfilePicture"
+              <label class="profile__button" for="changeProfilePicture"
                 >Changer d'avatar</label
               >
               <input
@@ -106,7 +106,9 @@
                     {{ data.lastName }} {{ data.firstName }}
                   </p>
                 </div>
-                <button @click="deleteMessage" :id="data.id">Supprimer</button>
+                <button v-if="admin" @click="deleteMessage" :id="data.id">
+                  Supprimer
+                </button>
               </div>
               <p v-bind:key="data.id + 'message'" :class="data.classText">
                 {{ data.message }}
@@ -163,6 +165,7 @@ export default {
       token: JSON.parse(localStorage.User).token,
       messageData: [],
       buttonId: '',
+      admin: '',
     };
   },
   methods: {
@@ -185,6 +188,7 @@ export default {
           this.fullName = `${response.lastName} ${response.firstName}`;
           this.lastName = response.lastName;
           this.firstName = response.firstName;
+          this.admin = response.admin;
         })
         .catch((error) => error);
     },
