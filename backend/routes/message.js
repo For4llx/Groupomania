@@ -7,8 +7,10 @@ const multer = require("../middleware/multer-config");
 
 router.get("/", auth, messageCtrl.getAllMessage);
 router.post("/", auth, messageCtrl.createMessage);
+router.delete("/", auth, messageCtrl.deleteMessage);
 router.get("/image", auth, messageCtrl.getAllImageMessage);
 router.post("/image", auth, multer, messageCtrl.createImageMessage);
+router.delete("/image", auth, messageCtrl.deleteImageMessage);
 router.put("/picture", multer, messageCtrl.changeMessagePicture);
 
 module.exports = router;

@@ -109,6 +109,7 @@
                     {{ media.lastName }} {{ media.firstName }}
                   </p>
                 </div>
+                <button @click="deleteMessage" :id="media.id">Supprimer</button>
               </div>
               <img
                 :src="media.image"
@@ -296,6 +297,27 @@ export default {
         })
         .then((data) => {
           this.profilePicture = data.profilePicture;
+        })
+        .catch((error) => error);
+    },
+    deleteMessage(event) {
+      fetch('http://localhost:3000/api/message/image', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: JSON.stringify({
+          id: event.target.id,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error('Erreur');
+        })
+        .then(() => {
+          alert('Message supprimé');
+          this.getImages();
         })
         .catch((error) => error);
     },

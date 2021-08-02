@@ -57,3 +57,11 @@ exports.changeMessagePicture = async (req, res, next) => {
   );
   res.status(200).json({ message: "L'image de profile à été modifié" });
 };
+exports.deleteMessage = async (req, res, next) => {
+  await Message.destroy({ where: { id: req.body.id } });
+  res.status(200).json({ message: "Message Supprimé !" });
+};
+exports.deleteImageMessage = async (req, res, next) => {
+  await Image.destroy({ where: { id: req.body.id } });
+  res.status(200).json({ message: "Message Supprimé !" });
+};

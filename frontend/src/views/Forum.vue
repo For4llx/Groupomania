@@ -106,6 +106,7 @@
                     {{ data.lastName }} {{ data.firstName }}
                   </p>
                 </div>
+                <button @click="deleteMessage" :id="data.id">Supprimer</button>
               </div>
               <p v-bind:key="data.id + 'message'" :class="data.classText">
                 {{ data.message }}
@@ -161,6 +162,7 @@ export default {
       userId: JSON.parse(localStorage.User).userId,
       token: JSON.parse(localStorage.User).token,
       messageData: [],
+      buttonId: '',
     };
   },
   methods: {
@@ -264,6 +266,27 @@ export default {
         .then(() => {
           alert('Votre profil à été supprimé');
           this.$router.push('/');
+        })
+        .catch((error) => error);
+    },
+    deleteMessage(event) {
+      fetch('http://localhost:3000/api/message', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.token}`,
+        },
+        body: JSON.stringify({
+          id: event.target.id,
+        }),
+      })
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error('Erreur');
+        })
+        .then(() => {
+          alert('Message supprimé');
+          this.getMessage();
         })
         .catch((error) => error);
     },
