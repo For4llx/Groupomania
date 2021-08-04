@@ -106,7 +106,11 @@
                     {{ data.lastName }} {{ data.firstName }}
                   </p>
                 </div>
-                <button v-if="admin" @click="deleteMessage" :id="data.id">
+                <button
+                  v-if="admin || data.userId == userId"
+                  @click="deleteMessage"
+                  :id="data.id"
+                >
                   Supprimer
                 </button>
               </div>

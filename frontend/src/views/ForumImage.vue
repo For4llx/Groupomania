@@ -109,13 +109,18 @@
                     {{ media.lastName }} {{ media.firstName }}
                   </p>
                 </div>
-                <button v-if="admin" @click="deleteMessage" :id="media.id">
+                <button
+                  v-if="admin || media.userId == userId"
+                  @click="deleteMessage"
+                  :id="media.id"
+                >
                   Supprimer
                 </button>
               </div>
               <img
                 :src="media.image"
                 :class="media.classText"
+                alt="Image du chat"
                 v-bind:key="media.id + 'media'"
               />
             </div>

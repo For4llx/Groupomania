@@ -1,6 +1,6 @@
 <template>
   <div id="signupForm">
-    <img class="background" src="../assets/dialogue2.jpg" />
+    <img alt="background" class="background" src="../assets/dialogue2.jpg" />
     <header class="header">
       <h1 class="banner">
         <!-- eslint-disable max-len -->
