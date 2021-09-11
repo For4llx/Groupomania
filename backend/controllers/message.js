@@ -1,6 +1,7 @@
 const Message = require("../models/message");
 const Image = require("../models/image");
 const User = require("../models/user");
+const fs = require("fs");
 
 exports.createMessage = async (req, res, next) => {
   const messageObject = await Message.create({
@@ -30,38 +31,17 @@ exports.getAllMessage = async (req, res, next) => {
   const messages = await Message.findAll();
   res.status(200).json(messages);
 };
-exports.changeMessagePicture = async (req, res, next) => {
-  await Message.update(
-    {
-      profilePicture: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
-    },
-    {
-      where: {
-        userId: req.body.userId,
-      },
-    }
-  );
-  await Image.update(
-    {
-      profilePicture: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
-    },
-    {
-      where: {
-        userId: req.body.userId,
-      },
-    }
-  );
-  res.status(200).json({ message: "L'image de profile à été modifié" });
-};
 exports.deleteMessage = async (req, res, next) => {
   await Message.destroy({ where: { id: req.body.id } });
   res.status(200).json({ message: "Message Supprimé !" });
 };
 exports.deleteImageMessage = async (req, res, next) => {
-  await Image.destroy({ where: { id: req.body.id } });
-  res.status(200).json({ message: "Message Supprimé !" });
+  const messageImage = await Image.findOne({
+    where: { id: req.body.id },
+  });
+  const filename = messageImage.image.split("/images/")[1];
+  fs.unlink(`images/${filename}`, async () => {
+    await Image.destroy({ where: { id: req.body.id } });
+    res.status(200).json({ message: "Message Supprimé !" });
+  });
 };

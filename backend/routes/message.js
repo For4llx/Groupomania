@@ -11,6 +11,5 @@ router.delete("/", auth, messageCtrl.deleteMessage);
 router.get("/image", auth, messageCtrl.getAllImageMessage);
 router.post("/image", auth, multer, messageCtrl.createImageMessage);
 router.delete("/image", auth, messageCtrl.deleteImageMessage);
-router.put("/picture", multer, messageCtrl.changeMessagePicture);
 
 module.exports = router;

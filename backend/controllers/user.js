@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 const User = require("../models/user");
 const app = require("../app");
+const fs = require("fs");
 
 exports.signin = async (req, res, next) => {
   const user = await User.findOne({ where: { email: req.body.email } });
@@ -55,19 +56,25 @@ exports.getUserName = async (req, res, next) => {
   });
 };
 exports.changeProfilePicture = async (req, res, next) => {
-  await User.update(
-    {
-      profilePicture: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
-    },
-    {
-      where: {
-        userId: req.body.userId,
+  const user = await User.findOne({
+    where: { userId: req.body.userId },
+  });
+  const filename = user.profilePicture.split("/images/")[1];
+  fs.unlink(`images/${filename}`, async () => {
+    await User.update(
+      {
+        profilePicture: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
       },
-    }
-  );
-  res.status(200).json({ message: "L'image de profile à été modifié" });
+      {
+        where: {
+          userId: req.body.userId,
+        },
+      }
+    );
+    res.status(200).json({ message: "L'image de profile à été modifié" });
+  });
 };
 exports.getUser = async (req, res, next) => {
   const user = await User.findOne({
